@@ -22,8 +22,9 @@ func main() {
 		os.Exit(1)
 	}
 
+	// 根据插件生成的 .so 文件分析出 mr 两个函数
 	mapf, reducef := loadPlugin(os.Args[1])
-
+	// 启动 worker并执行
 	mr.Worker(mapf, reducef)
 }
 

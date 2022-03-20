@@ -6,24 +6,60 @@ package mr
 // remember to capitalize all names.
 //
 
-import "os"
+import (
+	"os"
+	"time"
+)
 import "strconv"
 
-//
-// example to show how to declare the arguments
-// and reply for an RPC.
-//
+// 占位符
+type Placeholder struct{}
 
-type ExampleArgs struct {
-	X int
+type MapTask struct {
+	TaskMeta
+	Filename string
 }
 
-type ExampleReply struct {
-	Y int
+type ReduceTask struct {
+	TaskMeta
+	IntermediateFilenames []string
+}
+
+type TaskMeta struct {
+	State     TaskState
+	StartTime time.Time
+	Id        int
+}
+
+type TaskState int
+
+const (
+	Pending   TaskState = iota // 等待
+	Executing                  //执行
+	Finished                   // 完成
+)
+
+type Task struct {
+	Operation TaskOperation
+	IsMap     bool
+	NReduce   int
+	Map       MapTask
+	Reduce    ReduceTask
+}
+
+type TaskOperation int
+
+const (
+	ToWait TaskOperation = iota // 等待
+	ToRun                       // 执行
+)
+
+type FinishArgs struct {
+	IsMap bool
+	Id    int
 }
 
 // Add your RPC definitions here.
-
 
 // Cook up a unique-ish UNIX-domain socket name
 // in /var/tmp, for the coordinator.

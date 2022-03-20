@@ -20,7 +20,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	// 构建 Coordinator 输入文件名称
 	m := mr.MakeCoordinator(os.Args[1:], 10)
+
+	// 一直 sleep 等待输入
 	for m.Done() == false {
 		time.Sleep(time.Second)
 	}
