@@ -54,6 +54,15 @@ func init() {
 	log.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
 }
 
+func (rf *Raft) FormatLog() string {
+	s := ""
+	for i := 1; i < len(rf.log); i++ {
+		entry := rf.log[i]
+		s += fmt.Sprintf("%d(%d) ", entry.Term, entry.Term)
+	}
+	return s
+}
+
 const Padding = "    "
 
 func (rf *Raft) Debug(topic logTopic, format string, a ...interface{}) {
