@@ -57,10 +57,17 @@ func init() {
 func (rf *Raft) FormatLog() string {
 	s := ""
 	for i := 1; i < len(rf.log); i++ {
-		entry := rf.log[i]
-		s += fmt.Sprintf("%d(%d) ", entry.Term, entry.Term)
+		s += fmt.Sprintf("%v ", rf.log[i])
 	}
 	return s
+}
+
+func (rf *Raft) FormatState() string {
+	return fmt.Sprintf("%s  current log: %v", rf.FormatStateOnly(), rf.FormatLog())
+}
+
+func (rf *Raft) FormatStateOnly() string {
+	return fmt.Sprintf("commitIndex=%d lastApplied=%d nextIndex=%v matchIndex=%v", rf.commitIndex, rf.lastApplied, rf.nextIndex, rf.matchIndex)
 }
 
 const Padding = "    "
